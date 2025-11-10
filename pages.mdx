@@ -1,0 +1,127 @@
+---
+title: Pages
+
+description: Guide to creating, editing, and organizing pages within Paperguide spaces
+---
+
+## What Are Pages?
+
+Pages are individual documents in Paperguide. You use them to write detailed content within spaces. Each page supports rich media and formatting for engaging docs.
+
+<Columns cols={3}>
+  <Card title="Text Pages" icon="file-text">
+    Standard writing with markdown support.
+  </Card>
+  <Card title="Diagram Pages" icon="image">
+    Embed visuals and flowcharts.
+  </Card>
+  <Card title="Code Pages" icon="code">
+    Include syntax-highlighted snippets.
+  </Card>
+</Columns>
+
+## Creating Pages
+
+Navigate to a space and select "New Page". Choose a template if available.
+
+<Steps>
+  <Step title="Select Space" icon="folder">
+    Open the desired space from the dashboard.
+  </Step>
+  <Step title="Add Page" icon="plus">
+    Click "New Page" in the sidebar.
+    ````javascript
+    // API example for page creation
+    const newPage = {
+      title: 'My New Page',
+      content: '# Introduction\nWelcome!',
+      spaceId: 'space-123'
+    };
+    await fetch('/api/pages', {
+      method: 'POST',
+      body: JSON.stringify(newPage)
+    });
+    `````
+  </Step>
+  <Step title="Publish" icon="send">
+    Save and publish to make it live.
+  </Step>
+</Steps>
+
+<Callout kind="success">
+  New pages inherit space permissions automatically.
+</Callout>
+
+## Editing and Formatting
+
+The editor offers WYSIWYG and markdown modes. Insert images via drag-and-drop.
+
+<Tabs>
+  <Tab title="Markdown Mode" icon="code">
+    ````markdown
+    ## Section
+    - List item 1
+    - List item 2
+    
+    `Inline code` for variables.
+    `````
+  </Tab>
+  <Tab title="Visual Mode" icon="edit">
+    Use toolbar buttons for bold, italics, and links.
+    <Image src="https://via.placeholder.com/500x200" alt="Editor interface" width="500" height="200" />
+  </Tab>
+</Tabs>
+
+Organize pages with hierarchies. Drag to reorder or nest under parents.
+
+<ExpandableGroup>
+  <Expandable title="How to add tables?">
+    Use markdown pipe syntax for tables.
+    | Header 1 | Header 2 |
+    |----------|----------|
+    | Row 1    | Data     |
+  </Expandable>
+  <Expandable title="Embedding code?">
+    Use fenced blocks with language tags.
+  </Expandable>
+</ExpandableGroup>
+
+## Version History and Collaboration
+
+Paperguide tracks all edits with timestamps. You revert to previous versions easily.
+
+<CodeGroup tabs="CLI,API">
+  ```bash
+  paperguide page revert --id page-456 --version 2
+  ```
+  ```javascript
+  await revertPage('page-456', 2);
+  ```
+</CodeGroup>
+
+Collaborate by @mentioning users. They receive notifications for reviews.
+
+`````mermaid
+sequenceDiagram
+  participant U as User
+  participant P as Page
+  U->>P: Edit Content
+  P->>U: Save Version
+  Note over U,P: Track Changes
+`````
+
+## Advanced Page Features
+
+Embed videos or iframes for interactive content. Set page-specific metadata for SEO.
+
+You lock pages to prevent edits during reviews. Schedule publishes for timed releases.
+
+| Action | Shortcut | Use Case |
+|--------|----------|----------|
+| Bold   | Ctrl+B   | Emphasis |
+| Link   | Ctrl+K   | Navigation |
+| Image  | Ctrl+I   | Visuals |
+
+Handle conflicts by merging changes manually. Use the diff viewer for clarity.
+
+Pages enable dynamic documentation. Experiment to find your workflow.

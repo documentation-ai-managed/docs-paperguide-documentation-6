@@ -1,0 +1,101 @@
+---
+title: Spaces
+
+description: Learn how to create and manage spaces in Paperguide for organizing documentation
+---
+
+## Understanding Spaces
+
+Spaces in Paperguide serve as containers for your documentation. You create a space for each project or topic to keep content organized. This structure helps teams navigate large document sets easily.
+
+<Columns cols={2}>
+  <Card title="Project Spaces" icon="folder">
+    Dedicate spaces to specific initiatives like software releases.
+  </Card>
+  <Card title="Team Spaces" icon="users">
+    Group docs by department for collaborative access.
+  </Card>
+</Columns>
+
+## Creating a New Space
+
+You start by accessing the dashboard. Click the "New Space" button in the top right. Fill in the details to set it up.
+
+<Steps>
+  <Step title="Access Dashboard" icon="home">
+    Log in to Paperguide. The dashboard displays your existing spaces.
+  </Step>
+  <Step title="Initiate Creation" icon="plus">
+    Select "New Space" from the menu.
+    ````javascript
+    // Example API call for space creation
+    const createSpace = async (name, description) => {
+      const response = await fetch('/api/spaces', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, description })
+      });
+      return response.json();
+    };
+    `````
+  </Step>
+  <Step title="Configure Settings" icon="settings">
+    Set permissions and add a description. Save to activate the space.
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  Spaces support unlimited pages. Monitor usage via the analytics tab.
+</Callout>
+
+## Managing Space Permissions
+
+You control who accesses each space. Assign roles like admin, editor, or viewer to members.
+
+<Tabs>
+  <Tab title="Admin Role" icon="shield">
+    Admins manage all aspects including deletions.
+    <CodeGroup tabs="JavaScript,Python">
+      ```javascript
+      // Grant admin access
+      await grantRole(userId, spaceId, 'admin');
+      ```
+      ```python
+      # Grant admin access
+      grant_role(user_id, space_id, 'admin')
+      ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="Viewer Role" icon="eye">
+    Viewers read content but cannot edit.
+    Use this for external stakeholders.
+  </Tab>
+</Tabs>
+
+Customize notifications for space activities. Integrate with Slack for alerts on changes.
+
+<Expandable title="Advanced Space Features">
+  Enable versioning to track edits. Archive old spaces without losing data.
+  ````mermaid
+  graph TD
+      A[Create Space] --> B[Add Pages]
+      B --> C[Set Permissions]
+      C --> D[Integrate Tools]
+  `````
+</Expandable>
+
+## Best Practices for Spaces
+
+Name spaces descriptively, like "API v2 Documentation". Limit nesting to three levels for usability. Regularly review permissions to maintain security.
+
+You export entire spaces as ZIP files containing all pages. This feature aids in backups or migrations.
+
+| Feature | Description | Benefit |
+|---------|-------------|---------|
+| Permissions | Role-based access | Enhances security |
+| Export | Full space download | Easy backups |
+| Search | Global within space | Quick navigation |
+
+Troubleshoot issues by checking the activity log. Contact support for persistent problems.
+
+Spaces form the foundation of your Paperguide experience. Master them to unlock full potential.

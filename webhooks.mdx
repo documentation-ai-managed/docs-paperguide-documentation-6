@@ -1,0 +1,117 @@
+---
+title: Webhooks
+
+description: Set up and manage webhooks in Paperguide for real-time notifications and integrations
+---
+
+## Introduction to Webhooks
+
+Webhooks in Paperguide notify external services of events like page updates. You configure them to trigger actions in tools like Slack or GitHub. This keeps your workflows automated and teams informed.
+
+<Columns cols={2}>
+  <Card title="Event Triggers" icon="zap">
+    Respond to creates, updates, or deletes.
+  </Card>
+  <Card title="Payload Delivery" icon="send">
+    Receive JSON data for processing.
+  </Card>
+</Columns>
+
+## Setting Up Webhooks
+
+Access the integrations section in your space settings. Add a new webhook URL.
+
+<Steps>
+  <Step title="Navigate to Settings" icon="settings">
+    Go to space settings > Integrations.
+  </Step>
+  <Step title="Configure Webhook" icon="link">
+    Enter the target URL and select events. Test the connection.
+    ````javascript
+    // Sample webhook payload handler
+    app.post('/webhook', (req, res) => {
+      const event = req.body.event; // e.g., 'page.updated'
+      const data = req.body.data;
+      // Process notification
+      console.log(`Event: ${event}`, data);
+      res.status(200).send('OK');
+    });
+    `````
+  </Step>
+  <Step title="Verify Delivery" icon="check">
+    Trigger an event and check logs.
+  </Step>
+</Steps>
+
+<Callout kind="alert">
+  Secure your endpoints with HMAC signatures to verify authenticity.
+</Callout>
+
+## Common Events and Payloads
+
+Paperguide sends events like `page.created` with details.
+
+<Tabs>
+  <Tab title="Page Update Event" icon="edit">
+    ````json
+    {
+      "event": "page.updated",
+      "spaceId": "space-123",
+      "pageId": "page-456",
+      "timestamp": "2024-01-15T10:00:00Z",
+      "userId": "user-789"
+    }
+    `````
+  </Tab>
+  <Tab title="Space Delete Event" icon="trash-2">
+    ````json
+    {
+      "event": "space.deleted",
+      "spaceId": "space-123",
+      "timestamp": "2024-01-15T11:00:00Z"
+    }
+    `````
+  </Tab>
+</Tabs>
+
+Customize filters to limit events, such as only for specific pages.
+
+<Expandable title="Troubleshooting Webhooks">
+  <p>Check delivery status in the dashboard. Retry failed deliveries manually.</p>
+  <CodeGroup tabs="cURL,Bash">
+    ```bash
+    curl -X POST https://your-endpoint.com/webhook \
+      -H "Content-Type: application/json" \
+      -d '{"test": "payload"}'
+    ```
+    ```bash
+    # Verify signature
+    echo "$signature" | openssl dgst -sha256 -hmac "$secret"
+    ```
+  </CodeGroup>
+</Expandable>
+
+## Security Best Practices
+
+Use HTTPS for all webhook URLs to encrypt data. Validate payloads against expected schemas.
+
+`````mermaid
+graph LR
+    A[Event Occurs] --> B[Paperguide Server]
+    B --> C[Send Payload]
+    C --> D[Your Endpoint]
+    D --> E[Process & Verify]
+    E --> F[Action Taken]
+`````
+
+Rotate secrets periodically. Limit IP access if your service supports it.
+
+| Event Type | Payload Size | Retry Attempts |
+|------------|--------------|----------------|
+| Page Update | <1 KB | 3 |
+| Space Create | <500 B | 5 |
+| Delete | <200 B | 1 |
+
+Integrate webhooks with CI/CD pipelines for automated doc updates. Monitor usage to avoid rate limits.
+
+Webhooks enhance Paperguide's extensibility. Implement them to fit your needs.
